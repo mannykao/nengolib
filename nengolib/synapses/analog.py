@@ -4,7 +4,9 @@ import warnings
 from scipy.interpolate import pade
 from scipy.special import factorial
 
-from nengo.utils.compat import is_integer
+#from nengo.utils.compat import is_integer      #mck: fix
+from nengo.utils.numpy import is_integer        #mck: fix
+
 
 from nengolib.signal.system import LinearSystem, s
 

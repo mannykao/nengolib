@@ -21,7 +21,8 @@ version_module = imp.load_source(
     'version', os.path.join(root, name, 'version.py'))
 
 deps = [  # https://github.com/nengo/nengo/issues/508
-    "nengo>=2.2.0,<3.0",
+    #"nengo>=2.2.0,<3.0",   #mck: try to upgrade to 3.2.1
+    "nengo>=2.2.0"
     "numpy>=1.13",
     "scipy>=0.19.0",
 ]
@@ -60,6 +61,9 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ]
 )

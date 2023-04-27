@@ -1,4 +1,5 @@
-from nengo.utils.compat import is_integer
+#from nengo.utils.compat import is_integer          #mck: fix
+from nengo.utils.numpy import is_integer        #mck: fix
 
 from nengolib.signal.system import z
 

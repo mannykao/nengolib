@@ -4,7 +4,8 @@ import numpy as np
 from scipy.special import beta, betainc, betaincinv
 
 from nengo.dists import Distribution, UniformHypersphere
-from nengo.utils.compat import is_integer
+#from nengo.utils.compat import is_integer      #mck: fix      
+from nengo.utils.numpy import is_integer        #mck: fix
 
 from nengolib.stats.ortho import random_orthogonal
 from nengolib.stats._sobol_seq import i4_sobol_generate
