@@ -7,7 +7,7 @@ from scipy.signal import (
     cont2discrete, zpk2ss, ss2tf, ss2zpk, tf2ss, tf2zpk, zpk2tf, normalize)
 
 from nengo.synapses import LinearFilter
-from nengo.utils.compat import with_metaclass           #mck: fix: is_integer, is_number
+#from nengo.utils.compat import with_metaclass           #mck: fix: is_integer, is_number
 from nengo.utils.numpy import is_integer, is_number     #mck: fix
 
 __all__ = [
@@ -240,8 +240,8 @@ class LinearSystemType(type):
         # otherwise create a new instance with the determined analog attribute
         return super(LinearSystemType, self).__call__(sys, analog)
 
-
-class LinearSystem(with_metaclass(LinearSystemType, NengoLinearFilterMixin)):
+class LinearSystem(LinearSystemType, NengoLinearFilterMixin):   #mck: fix
+#class LinearSystem(with_metaclass(LinearSystemType, NengoLinearFilterMixin)):   #mck: fix
     """Generic linear system representation.
 
     This extends :class:`nengo.LinearFilter` to unify a variety of
@@ -386,6 +386,9 @@ class LinearSystem(with_metaclass(LinearSystemType, NengoLinearFilterMixin)):
     _zpk = None
 
     def __init__(self, sys, analog=None):
+        super(LinearSystemType).__init__(sys)            #mck: fix
+        super(NengoLinearFilterMixin).__init__(analog)   #mck: fix
+
         assert not isinstance(sys, LinearSystem)  # guaranteed by metaclass
         assert analog is not None  # guaranteed by metaclass
         self._sys = sys
