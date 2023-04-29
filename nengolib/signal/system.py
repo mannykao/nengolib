@@ -386,8 +386,8 @@ class LinearSystem(LinearSystemType, NengoLinearFilterMixin):   #mck: fix
     _zpk = None
 
     def __init__(self, sys, analog=None):
-        super(LinearSystemType).__init__(sys)            #mck: fix
-        super(NengoLinearFilterMixin).__init__(analog)   #mck: fix
+        super(LinearSystemType).__init__(type(LinearSystem))                    #mck: fix
+        super(NengoLinearFilterMixin).__init__(*sys, analog)   #mck: fix
 
         assert not isinstance(sys, LinearSystem)  # guaranteed by metaclass
         assert analog is not None  # guaranteed by metaclass
