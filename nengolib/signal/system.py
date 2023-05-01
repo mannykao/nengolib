@@ -10,6 +10,24 @@ from nengo.synapses import LinearFilter
 #from nengo.utils.compat import with_metaclass           #mck: fix: is_integer, is_number
 from nengo.utils.numpy import is_integer, is_number     #mck: fix
 
+
+def with_metaclass(meta, *bases):   #mck: copied from nengo.utils.compat of 2.8.0
+    """Function for creating a class with a metaclass.
+
+    The syntax for this changed between Python 2 and 3.
+    Code snippet from Armin Ronacher:
+    http://lucumr.pocoo.org/2013/5/21/porting-to-python-3-redux/
+    """
+    class metaclass(meta):
+        __call__ = type.__call__
+        __init__ = type.__init__
+
+        def __new__(cls, name, this_bases, d):
+            if this_bases is None:
+                return type.__new__(cls, name, (), d)
+            return meta(name, bases, d)
+    return metaclass('temporary_class', None, {})
+
 __all__ = [
     'sys2ss', 'sys2tf', 'sys2zpk', 'canonical', 'sys_equal', 'ss_equal',
     'NengoLinearFilterMixin', 'LinearSystem', 's', 'z']
@@ -240,8 +258,7 @@ class LinearSystemType(type):
         # otherwise create a new instance with the determined analog attribute
         return super(LinearSystemType, self).__call__(sys, analog)
 
-class LinearSystem(LinearSystemType, NengoLinearFilterMixin):   #mck: fix
-#class LinearSystem(with_metaclass(LinearSystemType, NengoLinearFilterMixin)):   #mck: fix
+class LinearSystem(with_metaclass(LinearSystemType, NengoLinearFilterMixin)):   #mck: fix
     """Generic linear system representation.
 
     This extends :class:`nengo.LinearFilter` to unify a variety of
@@ -386,8 +403,8 @@ class LinearSystem(LinearSystemType, NengoLinearFilterMixin):   #mck: fix
     _zpk = None
 
     def __init__(self, sys, analog=None):
-        super(LinearSystemType).__init__(type(LinearSystem))                    #mck: fix
-        super(NengoLinearFilterMixin).__init__(*sys, analog)   #mck: fix
+#        super(LinearSystemType).__init__(type(LinearSystem))                    #mck: fix
+ #       super(NengoLinearFilterMixin).__init__(*sys, analog)   #mck: fix
 
         assert not isinstance(sys, LinearSystem)  # guaranteed by metaclass
         assert analog is not None  # guaranteed by metaclass
